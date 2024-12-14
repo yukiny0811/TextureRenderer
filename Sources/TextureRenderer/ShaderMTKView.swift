@@ -12,8 +12,8 @@ import AppKit
 class ShaderMTKView: MTKView {
     let renderer: TextureRenderer
     
-    init(texture: MTLTexture) {
-        self.renderer = TextureRenderer(texture: texture)
+    init(texture: MTLTexture, commandQueue: MTLCommandQueue) {
+        self.renderer = TextureRenderer(texture: texture, commaneQueue: commandQueue)
         super.init(frame: .zero, device: ShaderUtils.device)
         
         self.frame = .zero

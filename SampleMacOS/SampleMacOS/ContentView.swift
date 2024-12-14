@@ -23,7 +23,9 @@ struct ContentView: View {
         )
     }()
     
+    let commandQueue = MTLCreateSystemDefaultDevice()!.makeCommandQueue()!
+    
     var body: some View {
-        TextureView(texture: texture)
+        TextureView(texture: texture, commandQueue: commandQueue)
     }
 }

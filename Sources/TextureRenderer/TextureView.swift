@@ -12,13 +12,15 @@ import AppKit
 public struct TextureView: NSViewRepresentable {
     
     let texture: MTLTexture
+    let commandQueue: MTLCommandQueue
     
-    public init(texture: MTLTexture) {
+    public init(texture: MTLTexture, commandQueue: MTLCommandQueue) {
         self.texture = texture
+        self.commandQueue = commandQueue
     }
     
     public func makeNSView(context: Context) -> MTKView {
-        let mtkView = ShaderMTKView(texture: texture)
+        let mtkView = ShaderMTKView(texture: texture, commandQueue: commandQueue)
         return mtkView
     }
     

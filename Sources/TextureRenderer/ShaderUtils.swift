@@ -10,5 +10,4 @@ import Metal
 actor ShaderUtils {
     static let device = MTLCreateSystemDefaultDevice()!
     static let library = try! device.makeDefaultLibrary(bundle: .module)
-    static let commandQueue = device.makeCommandQueue()!
 }

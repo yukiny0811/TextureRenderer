@@ -12,9 +12,11 @@ class TextureRenderer: NSObject, MTKViewDelegate {
     
     let texture: MTLTexture
     var mousePosition: simd_float2?
+    let commandQueue: MTLCommandQueue
     
-    init(texture: MTLTexture) {
+    init(texture: MTLTexture, commaneQueue: MTLCommandQueue) {
         self.texture = texture
+        self.commandQueue = commaneQueue
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
@@ -27,7 +29,7 @@ class TextureRenderer: NSObject, MTKViewDelegate {
             width: view.frame.size.width,
             height: view.frame.size.height
         )
-        guard let commandBuffer = ShaderUtils.commandQueue.makeCommandBuffer() else {
+        guard let commandBuffer = self.commandQueue.makeCommandBuffer() else {
             return
         }
         guard let renderPassDesc = view.currentRenderPassDescriptor else {
