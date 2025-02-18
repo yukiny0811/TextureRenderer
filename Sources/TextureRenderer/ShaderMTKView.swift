@@ -7,7 +7,11 @@
 
 import MetalKit
 import SwiftUI
+#if os(macOS)
 import AppKit
+#elseif os(iOS)
+import UIKit
+#endif
 
 class ShaderMTKView: MTKView {
     let renderer: TextureRenderer
@@ -27,8 +31,13 @@ class ShaderMTKView: MTKView {
         self.clearColor = .init(red: 0, green: 0, blue: 0, alpha: 0)
         self.sampleCount = 1
         self.clearDepth = 1.0
+        #if os(macOS)
         self.layer?.isOpaque = false
-        
+        #elseif os(iOS)
+        self.layer.isOpaque = false
+        #endif
+
+        #if os(macOS)
         let options: NSTrackingArea.Options = [
             .mouseMoved,
             .activeAlways,
@@ -36,12 +45,14 @@ class ShaderMTKView: MTKView {
         ]
         let trackingArea = NSTrackingArea(rect: bounds, options: options, owner: self, userInfo: nil)
         self.addTrackingArea(trackingArea)
+        #endif
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    #if os(macOS)
     override func mouseMoved(with event: NSEvent) {
         let mousePos = mousePos(event: event, viewFrame: self.superview!.frame)
         renderer.mousePosition = mousePos
@@ -60,4 +71,5 @@ class ShaderMTKView: MTKView {
         location.y -= viewFrame.minY
         return simd_float2(Float(location.x), Float(location.y))
     }
+    #endif
 }
